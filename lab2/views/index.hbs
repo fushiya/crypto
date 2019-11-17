@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <input type="checkbox"> Decrypt<br> -->
+    <input type="number" placeholder="keyA">
+    <input type="number" placeholder="keyB">
+    <button onclick="crypt()">START</button> <br>
+    <textarea name="text" id="text" cols="130" rows="20">{{file}}</textarea>
+<script>
+    const crypt = () => {
+        let txt = document.querySelector('#text').value;
+        let keyA = +document.querySelector('input[placeholder="keyA"]').value || 0;
+        let keyB = +document.querySelector('input[placeholder="keyB"]').value || 0;
+        let out = ``;
+        let alphabet = ['А','Б','В','Г','Ґ','Д','Е','Є','Ж','З','И','І','Ї','Й',
+                        'К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч',
+                        'Ш','Щ','Ь','Ю','Я'];
+        const formula = (n) => ((keyA * n) + keyB) % alphabet.length;
+
+        for (let i=0; i<txt.length; i++) {
+            if (alphabet.includes(txt[i].toUpperCase())) {
+                if (txt[i] == txt[i].toUpperCase()) {
+                    out+=`${alphabet[formula( alphabet.indexOf(txt[i].toUpperCase()) )]}`;
+                } else if (txt[i] == txt[i].toLowerCase()) {
+                    out+=`${alphabet[formula( alphabet.indexOf(txt[i].toUpperCase()) )].toLowerCase()}`;
+                }
+            } else {
+                out+=`${txt[i]}`;
+            }
+        }
+
+        document.querySelector('#text').value = out;
+        delete out;
+        delete alphabet;
+        delete keyA;
+        delete keyB;
+    }
+</script>
+</body>
+</html>
